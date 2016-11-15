@@ -48,17 +48,42 @@ class Chat implements MessageComponentInterface {
 		$user['name'] = $msg->userName;
 		$user['message'] = $msg->value;
 
-		$user = json_encode($user);
-
-		$file = 'app/history.json';
-		$current = file_get_contents($file);
-		$current .= $user;
-		file_put_contents($file, $current);
+		$userJson = json_encode($user);
+		$file = './app/history.json';
+		$history = file_get_contents($file);
+		if (!empty($history)){
+			$arr = array('name' =>  $msg->userName, 'message' => $msg->value );
+			$json = json_decode($history, true);
+			array_push($json, $arr);
+			$json = json_encode($json);
+			$historyMsg = fopen($file,'w+');
+			fputs($historyMsg, $json);
+			fclose($historyMsg);
+		}
+		else{
+			$historyMsg = fopen($file,'a');
+			$arr = array($arr = $user);
+			$json = json_encode($arr);
+			fputs($historyMsg,$json);
+			fclose($historyMsg);
+		
+		}
 		foreach ($this->clients as $client) {
 
-			// The sender is not the receiver, send to each client connected
-			
 			$client->send(json_encode(array('event'=>'message', 'value'=> array('name' =>$msg->userName , 'message'=>$msg->value ))));
+		}
+	}
+	if($msg->command === 'retreiveMsg'){
+		$file = 'app/history.json';
+		$msgHistory = file_get_contents($file);
+		
+		// var_dump(json_encode(array('event' =>'retreiveMsg' , 'value'=>$msgHistory)));
+		
+		foreach ($this->clients as $client) {
+			// The sender is not the receiver, send to each client connected
+			if($client == $from){
+				$client->send(json_encode(array('event' =>'retreiveMsg' , 'value'=>$msgHistory)));
+			}
 		}
 	}
     }

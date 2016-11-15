@@ -1,0 +1,18 @@
+.chatContainer{
+	z-index: 22;
+	bottom: 10px;
+	position: fixed;
+}
+
+.chatContainer .chatView{
+	width: 440px;
+	display: inline-block;
+	height: 200px;
+	background-color: lightgrey; 
+}
+.chatContainer .userList{
+	display: inline-block;
+	width: 220px;
+	height: 200px;
+	background-color: green; 
+}

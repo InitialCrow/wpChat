@@ -16,7 +16,7 @@ class ChatController
 {
 	
 	public function init(){
-		var_dump($_SESSION['chat']);
+	
 		if(!empty($_SESSION['chat'])){
 			
 			include_once __DIR__."/../../views/chat.php";

@@ -7,12 +7,35 @@
 
 			this.initUserlist();
 			self.conn.onmessage = function(e) {
-				console.log(e.data);
+				var event =  JSON.parse(e.data);
+				if(event.event === 'initUser'){
+					var userList = event.value;
+					var $user = $('.wc_userList').find('ul');
+					var html ="";
+
+					$user.append(html);
+					for(var user in userList){
+						html+= "<li>"+userList[user].name+"</li>";
+						
+					}
+					$user.find('li').remove();
+					$user.append(html);
+				}
+
+				if(event.event === 'message'){
+					var msg = event.value;
+					var $chatScope = $('.wc_chatView');
+
+					var html ="<p>"+msg.name+' say : '+msg.message+"</p>";
+
+					$chatScope.append(html);
+				}
 			};
 			this.sendMessage();
 		},
 		initUserlist : function(){
-			var $user = $('.userList').attr('data-curent-user');
+			var $user = $('.wc_userList').attr('data-curent-user');
+			sessionStorage.setItem('userName', $user);
 			
 			self.conn.onopen = function(e) {
 				// userList.push();
@@ -23,14 +46,16 @@
 
 		},
 		sendMessage : function(){
-			var $message = $('.wc_message').val();
+			
+
 			var $btn = $('.wc_send');
+			
 
+			var userName = sessionStorage.getItem('userName');
 			$btn.on('click', function(){
-				console.log($message);
-
-				$message = self.escapeHtml($message);
-				self.conn.send($message);
+				var $message = self.escapeHtml($('.wc_message').val());
+				self.conn.send(JSON.stringify({command:'message', userName: userName, value: $message}));
+				
 			});
 			
 		},

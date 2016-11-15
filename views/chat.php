@@ -1,10 +1,13 @@
-<div class="chatContainer">
+<div class="wc_chatContainer">
 		
-		<div class="chatView">
+		<div class="wc_chatView">
 			
 		</div>
-		<div class="userList" data-curent-user="<?php echo $_SESSION['chat']['name']; ?>">
-			
+		<div class="wc_userList" data-curent-user="<?php echo $_SESSION['chat']['name']; ?>">
+			<h3 class="wc_userlist_title">users connected : </h3>
+			<ul>
+				
+			</ul>
 		</div>
 		<div>
 			<input type="text" class="wc_message">

@@ -27,6 +27,7 @@ function wpChat_init(){
 	
 }
 $router->route('/index.php/login',[ChatController::class,'login']);
+$router->route('/index.php/wc_unlog',[ChatController::class,'disconect']);
 
 $router->end();
 function wpChat_chatView(){

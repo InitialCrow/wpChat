@@ -86,6 +86,23 @@ class Chat implements MessageComponentInterface {
 			}
 		}
 	}
+	if($msg->command === 'disconectUser'){
+		
+		$this->clients->detach($from);
+
+		for($i=0; $i<count($this->userList);$i++){
+			if($this->userList[$i]->id == $from->resourceId){
+				array_splice($this->userList, $i,1);
+
+			}
+		}
+		foreach ($this->clients as $client) {
+
+			// The sender is not the receiver, send to each client connected
+			$client->send(json_encode(array('event'=>'disconectUser', 'value'=>$this->userList)));
+		}
+		
+	}
     }
 
     public function onClose(ConnectionInterface $conn) {

@@ -29,7 +29,9 @@
 					$chatScope.append(html);
 				}
 				if(event.event === 'retreiveMsg'){
-
+					if(event.value === ''){
+						return;
+					}
 					var msgHistory= JSON.parse(event.value);
 					var html ="";
 					for(var msg in msgHistory){
@@ -39,7 +41,24 @@
 					$chatScope.find('p').remove();
 					$chatScope.append(html);
 				}
+				if(event.event === 'disconectUser'){
+					console.log(event.value);
+					
+					var newList= event.value;
+					var $user = $('.wc_userList').find('ul');
+					var html ="";
+
+					$user.append(html);
+					for(var user in newList){
+						html+= "<li>"+newList[user].name+"</li>";
+						
+					}
+					$user.find('li').remove();
+					$user.append(html);
+
+				}
 			};
+			this.disconetUser();
 			this.retreiveMessage();
 			this.sendMessage();
 		},
@@ -51,15 +70,23 @@
 		},
 		initUserList : function(){
 			var $user = $('.wc_userList').attr('data-curent-user');
-			sessionStorage.setItem('userName', $user);
-			return JSON.stringify({command:'initUser', value: $user})
+			console.log($user);
+			if($user !== undefined){
+
+				sessionStorage.setItem('userName', $user);
+				return JSON.stringify({command:'initUser', value: $user})
+			}
+			
+			
 		},
 		initChat : function(){
 			
-			
+			var $user = $('.wc_userList').attr('data-curent-user');
 			self.conn.onopen = function(e) {
 				// userList.push();
-				self.conn.send(self.initUserList());
+				if($user !== undefined){
+					self.conn.send(self.initUserList());
+				}
 				self.conn.send(self.retreiveMessage());
 				console.log(e)
 				console.log("Connection established!");
@@ -68,13 +95,25 @@
 		},
 		sendMessage : function(){
 			var $btn = $('.wc_send');
-			var userName = sessionStorage.getItem('userName');
+			
+
 			$btn.on('click', function(){
+				var userName = sessionStorage.getItem('userName');
 				var $message = self.escapeHtml($('.wc_message').val());
 				self.conn.send(JSON.stringify({command:'message', userName: userName, value: $message}));
 				
 			});
 			
+		},
+		disconetUser : function(){
+			var $userlist = $('.wc_userList');
+			$userlist.append('<button class=\'wc_disconect-btn\'>disconet</button>');
+
+			$('.wc_disconect-btn').on('click', function(){
+				self.conn.send(JSON.stringify({command:'disconectUser'}));
+				sessionStorage.clear();
+				window.location.href = "/index.php/wc_unlog";
+			});
 		},
 		escapeHtml: function(text){
 			var map = {

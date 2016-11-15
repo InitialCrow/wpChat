@@ -32,5 +32,11 @@ class ChatController
 		wp_redirect('/');
 		exit();
 	}
+	public function disconect(){
+		session_destroy();
+		wp_redirect('/');
+		exit();
+	}
+
 
 }

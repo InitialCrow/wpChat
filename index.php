@@ -14,28 +14,30 @@ use App\EzRouter;
 
 session_start();
 
-$router = new EzRouter();
+
 
 function wpChat_scripts() {
     wp_enqueue_style( 'wpChat', plugins_url('wpChat/public/css/chat.css' ) );
     wp_enqueue_style( 'wpChatLogin', plugins_url('wpChat/public/css/login.css' ) );
-    wp_enqueue_script( 'main', plugins_url('wpChat/public/js/main.js' ),array( 'jquery' ), false, true );
+    wp_enqueue_script( 'main', plugins_url('wpChat/public/js/main.js' ),array( 'jquery' ), false, false );
 }
 
 function wpChat_init(){
 	include_once __DIR__."/views/partial/script.php";
 	
 }
-$router->route('/index.php/login',[ChatController::class,'login']);
-$router->route('/index.php/wc_unlog',[ChatController::class,'disconect']);
 
-$router->end();
-function wpChat_chatView(){
-	ChatController::init();
+
+
+function wpChat_route(){
+	$router = new EzRouter();
+		$router->route('/',[ChatController::class, 'init']);
+		$router->route('/index.php/login',[ChatController::class,'login']);
+		$router->route('/index.php/wc_unlog',[ChatController::class,'disconect']);
+	$router->end();
 }
-
-add_filter('the_content', 'wpChat_chatview' );
-add_action('shutdown','wpChat_init');
+add_action('init', 'wpChat_route' );
+add_action('wp_footer','wpChat_init');
 add_action('wp_enqueue_scripts', 'wpChat_scripts' );
 
 

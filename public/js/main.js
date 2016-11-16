@@ -27,6 +27,7 @@
 					var $chatScope = $('.wc_chatView');
 					var html ="<p>"+msg.name+' say : '+msg.message+"</p>";
 					$chatScope.append(html);
+					$chatScope.scrollTop($chatScope[0].scrollHeight);
 				}
 				if(event.event === 'retreiveMsg'){
 					if(event.value === ''){
@@ -41,6 +42,7 @@
 					var $chatScope = $('.wc_chatView');
 					$chatScope.find('p').remove();
 					$chatScope.append(html);
+					$chatScope.scrollTop($chatScope[0].scrollHeight);
 				}
 				if(event.event === 'disconectUser'){
 					console.log(event.value);

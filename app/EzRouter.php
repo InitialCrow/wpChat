@@ -65,7 +65,10 @@ Class EzRouter {
 		}	
 		
 	}
-	public function end(){
-		echo "route not found";
+	public function end($showMsg = true){
+		if($showMsg){
+
+			echo "route not found";
+		}
 	}
 }

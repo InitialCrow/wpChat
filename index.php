@@ -10,10 +10,13 @@
 */
 require __DIR__ .'/vendor/autoload.php';
 use App\Controller\ChatController;
+use App\Controller\Admin\AdminController;
 use App\EzRouter;
 
 session_start();
 
+
+global $current_user;
 
 
 function wpChat_scripts() {
@@ -24,14 +27,20 @@ function wpChat_scripts() {
 }
 
 
-
-
 function wpChat_route(){
 	$router = new EzRouter();
+		if(is_super_admin($user_id)) {
+		  // do stuff for the admin user...
+
+			AdminController::init();
+			$router->route('/wp-admin/hello',[ChatController::class, 'init']);
+
+
+		}
 		$router->route('/',[ChatController::class, 'init']);
 		$router->route('/index.php/login',[ChatController::class,'login']);
 		$router->route('/index.php/wc_unlog',[ChatController::class,'disconect']);
-	$router->end();
+	$router->end(false);
 }
 add_action('init', 'wpChat_route' );
 add_action('wp_enqueue_scripts', 'wpChat_scripts' );

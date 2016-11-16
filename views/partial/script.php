@@ -1,3 +1,0 @@
-<script>
-	app.init();
-</script>

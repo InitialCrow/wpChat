@@ -19,13 +19,10 @@ session_start();
 function wpChat_scripts() {
     wp_enqueue_style( 'wpChat', plugins_url('wpChat/public/css/chat.css' ) );
     wp_enqueue_style( 'wpChatLogin', plugins_url('wpChat/public/css/login.css' ) );
-    wp_enqueue_script( 'main', plugins_url('wpChat/public/js/main.js' ),array( 'jquery' ), false, false );
+    wp_enqueue_script( 'main', plugins_url('wpChat/public/js/main.js' ),array( 'jquery' ), false, true );
+    wp_enqueue_script( 'init', plugins_url('wpChat/public/js/init.js' ),array(), false, true );
 }
 
-function wpChat_init(){
-	include_once __DIR__."/views/partial/script.php";
-	
-}
 
 
 
@@ -37,8 +34,8 @@ function wpChat_route(){
 	$router->end();
 }
 add_action('init', 'wpChat_route' );
-add_action('wp_footer','wpChat_init');
 add_action('wp_enqueue_scripts', 'wpChat_scripts' );
+
 
 
 

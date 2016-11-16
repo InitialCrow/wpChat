@@ -7,6 +7,8 @@
 }
 
 .wc_chatContainer .wc_chatView{
+	overflow-y: auto;
+	overflow-x: hidden;
 	vertical-align: top;
 	width: 440px;
 	display: inline-block;

@@ -32,6 +32,7 @@
 					if(event.value === ''){
 						return;
 					}
+				
 					var msgHistory= JSON.parse(event.value);
 					var html ="";
 					for(var msg in msgHistory){
@@ -70,7 +71,6 @@
 		},
 		initUserList : function(){
 			var $user = $('.wc_userList').attr('data-curent-user');
-			console.log($user);
 			if($user !== undefined){
 
 				sessionStorage.setItem('userName', $user);

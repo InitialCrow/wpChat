@@ -18,6 +18,9 @@
 						html+= "<li>"+userList[user].name+"</li>";
 						
 					}
+					if(event.rectMsg !== undefined){
+						 $('.wc_chatView').append("<p>"+event.rectMsg+"</p>");
+					}
 					$user.find('li').remove();
 					$user.append(html);
 				}
@@ -65,6 +68,7 @@
 				}
 				if(event.event === 'getRect'){
 					sessionStorage.clear();
+					alert(event.rectMsg);
 					window.location.href = "/index.php/wc_unlog";
 				}
 			};

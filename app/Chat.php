@@ -112,8 +112,10 @@ class Chat implements MessageComponentInterface {
 		}
 	}
 	if($msg->command === 'banUser'){
+		$badGuy = null; // guy will be kick
 		for($i=0; $i<count($this->userList);$i++){
 			if($this->userList[$i]->id == $msg->value){
+				$badGuy = $this->userList[$i]->name;
 				array_splice($this->userList, $i,1);
 
 			}
@@ -124,9 +126,9 @@ class Chat implements MessageComponentInterface {
 			if($client->resourceId === $msg->value){
 
 				$this->clients->detach($client);
-				$client->send(json_encode(array('event'=>'getRect', 'value'=>$this->userList)));
+				$client->send(json_encode(array('event'=>'getRect', 'rectMsg'=>'you was kick from the chat <(^^<', 'value'=>$this->userList)));
 			}
-			$client->send(json_encode(array('event'=>'initUser', 'value'=>$this->userList)));
+			$client->send(json_encode(array('event'=>'initUser', 'rectMsg'=>$badGuy.' was kick from the chat <(^^<', 'value'=>$this->userList)));
 			$client->send(json_encode(array('event'=>'getUsers', 'value'=>$this->userList)));
 		}
 	}

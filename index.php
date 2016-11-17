@@ -41,6 +41,8 @@ function wpChat_route(){
 			AdminController::init();
 			$router->route('/wp-admin/index.php/server/start',[AdminController::class,'start']);
 			$router->route('/wp-admin/index.php/server/stop',[AdminController::class,'stop']);
+			$router->route('/wp-admin/index.php/server/restart',[AdminController::class,'restart']);
+			$router->route('/wp-admin/index.php/clearChat',[AdminController::class,'clearHistory']);
 
 
 		}

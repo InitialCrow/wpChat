@@ -42,10 +42,13 @@
 					var $chatScope = $('.wc_chatView');
 					$chatScope.find('p').remove();
 					$chatScope.append(html);
-					$chatScope.scrollTop($chatScope[0].scrollHeight);
+					if($chatScope[0]!== undefined){
+
+						$chatScope.scrollTop($chatScope[0].scrollHeight);
+					}
 				}
 				if(event.event === 'disconectUser'){
-					console.log(event.value);
+					
 					
 					var newList= event.value;
 					var $user = $('.wc_userList').find('ul');
@@ -59,6 +62,10 @@
 					$user.find('li').remove();
 					$user.append(html);
 
+				}
+				if(event.event === 'getRect'){
+					sessionStorage.clear();
+					window.location.href = "/index.php/wc_unlog";
 				}
 			};
 			this.disconetUser();

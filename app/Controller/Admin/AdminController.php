@@ -27,14 +27,14 @@ class AdminController
 	public function start(){
 	
 		shell_exec('nohup php ../wp-content/plugins/wpChat/server.php > ../wp-content/plugins/wpChat/output.log 2>&1 > ../wp-content/plugins/wpChat/output2.log &');
-		$_SESSION['chat']['on'] = true;
+		$_SESSION['chatServer']['on'] = true;
 		wp_redirect('/wp-admin/admin.php?page=wpChat%2Fviews%2Fadmin%2Fdashboard.php');
 		exit();
 	}
 	public function stop(){
 	
 		shell_exec("kill $(ps aux | grep '[p]hp' | awk '{print $2}')");
-		$_SESSION['chat']['on'] = false;
+		$_SESSION['chatServer']['on'] = false;
 		wp_redirect('/wp-admin/admin.php?page=wpChat%2Fviews%2Fadmin%2Fdashboard.php');
 		exit();
 	}

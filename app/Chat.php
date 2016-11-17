@@ -4,6 +4,7 @@ namespace App;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use App\ChatController;
+
 use StdClass;
 
 class Chat implements MessageComponentInterface {
@@ -17,6 +18,7 @@ class Chat implements MessageComponentInterface {
     public function onOpen(ConnectionInterface $conn) {
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
+      
         echo "New connection! ({$conn->resourceId})\n";
 
     }
@@ -41,6 +43,7 @@ class Chat implements MessageComponentInterface {
 
 			// The sender is not the receiver, send to each client connected
 			$client->send(json_encode(array('event'=>'initUser', 'value'=>$this->userList)));
+			$client->send(json_encode(array('event'=>'getUsers', 'value'=>$this->userList)));
 		}
 	}
 	if($msg->command === 'message'){
@@ -77,8 +80,6 @@ class Chat implements MessageComponentInterface {
 		$file = __DIR__.'/history.json';
 		$msgHistory = file_get_contents($file);
 		
-		// var_dump(json_encode(array('event' =>'retreiveMsg' , 'value'=>$msgHistory)));
-		
 		foreach ($this->clients as $client) {
 			// The sender is not the receiver, send to each client connected
 			if($client == $from){
@@ -100,11 +101,36 @@ class Chat implements MessageComponentInterface {
 
 			// The sender is not the receiver, send to each client connected
 			$client->send(json_encode(array('event'=>'disconectUser', 'value'=>$this->userList)));
+			$client->send(json_encode(array('event'=>'getUsers', 'value'=>$this->userList)));
+		}	
+	}
+	if($msg->command === 'getUsers'){
+		foreach ($this->clients as $client) {
+
+			// The sender is not the receiver, send to each client connected
+			$client->send(json_encode(array('event'=>'getUsers', 'value'=>$this->userList)));
 		}
+	}
+	if($msg->command === 'banUser'){
+		for($i=0; $i<count($this->userList);$i++){
+			if($this->userList[$i]->id == $msg->value){
+				array_splice($this->userList, $i,1);
+
+			}
+		}
+		foreach ($this->clients as $client) {
+
 		
+			if($client->resourceId === $msg->value){
+
+				$this->clients->detach($client);
+				$client->send(json_encode(array('event'=>'getRect', 'value'=>$this->userList)));
+			}
+			$client->send(json_encode(array('event'=>'initUser', 'value'=>$this->userList)));
+			$client->send(json_encode(array('event'=>'getUsers', 'value'=>$this->userList)));
+		}
 	}
     }
-
     public function onClose(ConnectionInterface $conn) {
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);

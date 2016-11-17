@@ -33,7 +33,7 @@ class ChatController
 		exit();
 	}
 	public function disconect(){
-		session_destroy();
+		unset($_SESSION['chat']['name']);
 		wp_redirect('/');
 		exit();
 	}

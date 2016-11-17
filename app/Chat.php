@@ -49,7 +49,7 @@ class Chat implements MessageComponentInterface {
 		$user['message'] = $msg->value;
 
 		$userJson = json_encode($user);
-		$file = './app/history.json';
+		$file = __DIR__.'/history.json';
 		$history = file_get_contents($file);
 		if (!empty($history)){
 			$arr = array('name' =>  $msg->userName, 'message' => $msg->value );
@@ -74,7 +74,7 @@ class Chat implements MessageComponentInterface {
 		}
 	}
 	if($msg->command === 'retreiveMsg'){
-		$file = 'app/history.json';
+		$file = __DIR__.'/history.json';
 		$msgHistory = file_get_contents($file);
 		
 		// var_dump(json_encode(array('event' =>'retreiveMsg' , 'value'=>$msgHistory)));

@@ -22,8 +22,12 @@ global $current_user;
 function wpChat_scripts() {
     wp_enqueue_style( 'wpChat', plugins_url('wpChat/public/css/chat.css' ) );
     wp_enqueue_style( 'wpChatLogin', plugins_url('wpChat/public/css/login.css' ) );
+
     wp_enqueue_script( 'main', plugins_url('wpChat/public/js/main.js' ),array( 'jquery' ), false, true );
     wp_enqueue_script( 'init', plugins_url('wpChat/public/js/init.js' ),array(), false, true );
+}
+function wpChat_styleAdmin(){
+	wp_enqueue_style( 'wpChatAdmin', plugins_url('wpChat/public/css/admin/dashboard.css' ) );
 }
 
 
@@ -33,7 +37,8 @@ function wpChat_route(){
 		  // do stuff for the admin user...
 
 			AdminController::init();
-			$router->route('/wp-admin/hello',[ChatController::class, 'init']);
+			$router->route('/wp-admin/index.php/server/start',[AdminController::class,'start']);
+			$router->route('/wp-admin/index.php/server/stop',[AdminController::class,'stop']);
 
 
 		}
@@ -44,6 +49,7 @@ function wpChat_route(){
 }
 add_action('init', 'wpChat_route' );
 add_action('wp_enqueue_scripts', 'wpChat_scripts' );
+add_action('admin_enqueue_scripts','wpChat_styleAdmin');
 
 
 

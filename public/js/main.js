@@ -28,7 +28,16 @@
 				if(event.event === 'message'){
 					var msg = event.value;
 					var $chatScope = $('.wc_chatView');
-					var html ="<p>"+msg.name+' say : '+msg.message+"</p>";
+					var html ="";
+					
+					if(msg.name === sessionStorage.getItem('userName')){
+							
+						html+="<p class='wc_bubleRight'>"+ msg.name+' say : '+msg.message+"</p>";
+					}
+					else{
+						html+="<p class='wc_bubleLeft'>"+ msg.name+' say : '+msg.message+"</p>";
+					}
+					
 					$chatScope.append(html);
 					$chatScope.scrollTop($chatScope[0].scrollHeight);
 				}
@@ -39,8 +48,16 @@
 				
 					var msgHistory= JSON.parse(event.value);
 					var html ="";
+
 					for(var msg in msgHistory){
-						html+="<p>"+ msgHistory[msg].name+' say : '+msgHistory[msg].message+"</p>";
+						if(msgHistory[msg].name === sessionStorage.getItem('userName')){
+							
+							html+="<p class='wc_bubleRight'>"+ msgHistory[msg].name+' say : '+msgHistory[msg].message+"</p>";
+						}
+						else{
+							html+="<p class='wc_bubleLeft'>"+ msgHistory[msg].name+' say : '+msgHistory[msg].message+"</p>";
+						}
+						
 					}
 					var $chatScope = $('.wc_chatView');
 					$chatScope.find('p').remove();
@@ -72,7 +89,7 @@
 					window.location.href = "/index.php/wc_unlog";
 				}
 			};
-			this.disconetUser();
+			this.disconectUser();
 			this.retreiveMessage();
 			this.sendMessage();
 		},
@@ -118,9 +135,9 @@
 			});
 			
 		},
-		disconetUser : function(){
-			var $userlist = $('.wc_userList');
-			$userlist.append('<button class=\'wc_disconect-btn\'>disconet</button>');
+		disconectUser : function(){
+			var $chatBar = $('.wc_chatBar');
+			$chatBar.prepend('<button class=\'wc_disconect-btn\'>X</button>');
 
 			$('.wc_disconect-btn').on('click', function(){
 				self.conn.send(JSON.stringify({command:'disconectUser'}));

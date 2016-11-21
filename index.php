@@ -20,8 +20,9 @@ global $current_user;
 
 
 function wpChat_scripts() {
-    wp_enqueue_style( 'wpChat', plugins_url('wpChat/public/css/chat.css' ) );
+    wp_enqueue_style( 'wpChatBuble', plugins_url('wpChat/public/css/buble.css' ) );
     wp_enqueue_style( 'wpChatLogin', plugins_url('wpChat/public/css/login.css' ) );
+    wp_enqueue_style( 'wpChat', plugins_url('wpChat/public/css/chat.css' ) );
 
     wp_enqueue_script( 'main', plugins_url('wpChat/public/js/main.js' ),array( 'jquery' ), false, true );
     wp_enqueue_script( 'init', plugins_url('wpChat/public/js/init.js' ),array(), false, true );
@@ -35,7 +36,7 @@ function wpChat_AdminScripts(){
 
 function wpChat_route(){
 	$router = new EzRouter();
-		if(is_super_admin($user_id)) {
+		if(is_admin()) {
 		  // do stuff for the admin user...
 
 			AdminController::init();

@@ -23,6 +23,11 @@ plugin for wordpress from scratch with mvc work on linux (no admin for window)
 
 > define('BASE_URI', ''); // set here the subfolder path after host
 
+e.g if your site base url is http://localhost/wordpress
+
+put 
+
+> define('BASE_URI', '/wordpress'); // set here the subfolder path after host
 
 - then go to activate this plugin on wp admin
 

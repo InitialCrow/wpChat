@@ -13,7 +13,7 @@ use App\Controller\ChatController;
 use App\Controller\Admin\AdminController;
 use App\EzRouter;
 
-define('BASE_URI', '/wordpress');
+define('BASE_URI', '');
 session_start();
 
 

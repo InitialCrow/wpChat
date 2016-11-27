@@ -22,13 +22,24 @@ class ChatController
 	public function login(){
 		$name = strip_tags($_POST['login']);
 		$_SESSION['chat']['name'] = $name;
-		wp_redirect(BASE_URI);
+		if(BASE_URI == ''){
+			wp_redirect('/');
+		}
+		else{
+			wp_redirect(BASE_URI);
+		}
+		
 		exit();
 	}
 	public function disconect(){
 		var_dump('ici');
 		unset($_SESSION['chat']['name']);
-		wp_redirect(BASE_URI);
+		if(BASE_URI == ''){
+			wp_redirect('/');
+		}else{
+
+			wp_redirect(BASE_URI);
+		}
 		exit();
 	}
 

@@ -14,12 +14,12 @@
 			<p class="wcStatus"> server status : <span class="wcPing wcOn"></span> on line! <?php if(!empty($_SESSION['chatServer']['logs'])) echo $_SESSION['chatServer']['logs'];?></p>
 
 			<li><a class="wcOn" href="#">start</a></li>
-			<li><a href="/wp-admin/index.php/server/restart">restart</a></li>
-			<li><a href="/wp-admin/index.php/server/stop">stop</a></li>
+			<li><a href="<?php echo BASE_URI;?>/wp-admin/index.php/server/restart">restart</a></li>
+			<li><a href="<?php echo BASE_URI;?>/wp-admin/index.php/server/stop">stop</a></li>
 			
 		<?php } else{ ?>
 			<p class="wcStatus"> server status : <span class="wcPing wcOff"></span> off line!</p>
-		<li><a href="/wp-admin/index.php/server/start">start</a></li>
+		<li><a href="<?php echo BASE_URI;?>/wp-admin/index.php/server/start">start</a></li>
 		<?php } ?>
 		
 
@@ -40,7 +40,7 @@
 
 		<input type="text" class="wc_message" placeholder="send your alert message"><button class="wc_send">send</button>
 
-		<a href="/wp-admin/index.php/clearChat">clear</a>
+		<a href="<?php echo BASE_URI;?>/wp-admin/index.php/clearChat">clear</a>
 	<?php }else{?>
 	<p>chat server disabled</p>
 	<?php	} ?>

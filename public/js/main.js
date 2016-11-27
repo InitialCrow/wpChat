@@ -2,9 +2,18 @@
 	var app = {
 		conn : new WebSocket('ws://localhost:8080'),
 		userList : [],
+		base_uri : null,
 		init : function(){
-			
+			if( sessionStorage.getItem('BASE_URI') !== undefined && sessionStorage.getItem('BASE_URI') !== null  && sessionStorage.getItem('BASE_URI') !== 'undefined' ){
+				this.base_uri = sessionStorage.getItem('BASE_URI');
 
+			
+			}
+			else{
+				var $url = $('.wc_seturi').attr('data-uri');
+				console.log($url)
+				sessionStorage.setItem('BASE_URI',$url);
+			}
 			
 			self.conn.onmessage = function(e) {
 				var event =  JSON.parse(e.data);
@@ -162,7 +171,7 @@
 			$('.wc_disconect-btn').on('click', function(){
 				self.conn.send(JSON.stringify({command:'disconectUser'}));
 				sessionStorage.clear();
-				window.location.href = "/index.php/wc_unlog";
+				window.location.href = self.base_uri+"/index.php/wc_unlog";
 			});
 		},
 		escapeHtml: function(text){

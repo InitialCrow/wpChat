@@ -13,6 +13,7 @@ use App\Controller\ChatController;
 use App\Controller\Admin\AdminController;
 use App\EzRouter;
 
+define('BASE_URI', '/wordpress');
 session_start();
 
 
@@ -40,16 +41,17 @@ function wpChat_route(){
 		  // do stuff for the admin user...
 
 			AdminController::init();
-			$router->route('/wp-admin/index.php/server/start',[AdminController::class,'start']);
-			$router->route('/wp-admin/index.php/server/stop',[AdminController::class,'stop']);
-			$router->route('/wp-admin/index.php/server/restart',[AdminController::class,'restart']);
-			$router->route('/wp-admin/index.php/clearChat',[AdminController::class,'clearHistory']);
+		
+			$router->route(BASE_URI.'/wp-admin/index.php/server/start',[AdminController::class,'start']);
+			$router->route(BASE_URI.'/wp-admin/index.php/server/stop',[AdminController::class,'stop']);
+			$router->route(BASE_URI.'/wp-admin/index.php/server/restart',[AdminController::class,'restart']);
+			$router->route(BASE_URI.'/wp-admin/index.php/clearChat',[AdminController::class,'clearHistory']);
 
 
 		}
-		$router->route('/',[ChatController::class, 'init']);
-		$router->route('/index.php/login',[ChatController::class,'login']);
-		$router->route('/index.php/wc_unlog',[ChatController::class,'disconect']);
+		$router->route(BASE_URI.'/',[ChatController::class, 'init']);
+		$router->route(BASE_URI.'/index.php/login',[ChatController::class,'login']);
+		$router->route(BASE_URI.'/index.php/wc_unlog',[ChatController::class,'disconect']);
 	$router->end(false);
 }
 add_action('init', 'wpChat_route' );

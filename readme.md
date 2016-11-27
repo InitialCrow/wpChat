@@ -16,7 +16,7 @@ plugin for wordpress from scratch with mvc work on linux (no admin for window)
 
 - after we need to give good right acces on folder use
 
-> sudo chmod 777 wpChat
+> sudo chmod 777 wpChat;
 > sudo chmod 777 wpChat/app/history.json
 
 - if you server has sublfolder for acces wordpress app go to index.php in plugin and fine the line 

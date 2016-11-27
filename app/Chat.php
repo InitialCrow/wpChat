@@ -10,6 +10,7 @@ use StdClass;
 class Chat implements MessageComponentInterface {
     protected $clients;
     private $userList = [];
+    private $unique = 0;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
@@ -24,6 +25,7 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
+    	
 	$numRecv = count($this->clients) - 1;
 	echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
 	, $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
@@ -33,10 +35,22 @@ class Chat implements MessageComponentInterface {
 	if($msg->command === 'initUser'){
 		$credential = new StdClass();
 		if(!empty($msg->value)){
+			var_dump($msg->value);
 
-			$credential->name =  $msg->value;
+			$credential->name =  htmlspecialchars($msg->value);
 			$credential->id = $from->resourceId;
 			echo $credential->name." -> join chat";
+			foreach($this->userList as $user){
+				if($credential->name == $user->name){
+					
+					
+						$from->send(json_encode(array('event'=>'uniqueid')));
+						
+					
+					
+				}
+			}
+
 			array_push($this->userList, $credential);
 		}
 		foreach ($this->clients as $client) {
@@ -55,7 +69,7 @@ class Chat implements MessageComponentInterface {
 		$file = __DIR__.'/history.json';
 		$history = file_get_contents($file);
 		if (!empty($history)){
-			$arr = array('name' =>  $msg->userName, 'message' => $msg->value );
+			$arr = array('name' =>  $msg->userName, 'message' => htmlspecialchars($msg->value) );
 			$json = json_decode($history, true);
 			array_push($json, $arr);
 			$json = json_encode($json);

@@ -5,7 +5,7 @@
 		init : function(){
 			
 
-			this.initChat();
+			
 			self.conn.onmessage = function(e) {
 				var event =  JSON.parse(e.data);
 				if(event.event === 'initUser'){
@@ -88,7 +88,16 @@
 					alert(event.rectMsg);
 					window.location.href = "/index.php/wc_unlog";
 				}
+				if(event.event === 'uniqueid'){
+					alert('name already taken change name plz')
+					self.conn.send(JSON.stringify({command:'disconectUser'}));
+					sessionStorage.clear();
+					window.location.href = "/index.php/wc_unlog";
+					
+
+				}
 			};
+			this.initChat();
 			this.disconectUser();
 			this.retreiveMessage();
 			this.sendMessage();
@@ -125,14 +134,25 @@
 		},
 		sendMessage : function(){
 			var $btn = $('.wc_send');
+			var $input = $('.wc_message');
 			
 
 			$btn.on('click', function(){
 				var userName = sessionStorage.getItem('userName');
 				var $message = self.escapeHtml($('.wc_message').val());
 				self.conn.send(JSON.stringify({command:'message', userName: userName, value: $message}));
+				$input.val('');
 				
 			});
+			$input.on('keydown',function(evt){
+				if(evt.keyCode === 13){
+					var userName = sessionStorage.getItem('userName');
+					var $message = self.escapeHtml($('.wc_message').val());
+					self.conn.send(JSON.stringify({command:'message', userName: userName, value: $message}));
+					$input.val('');
+				}
+			});
+
 			
 		},
 		disconectUser : function(){

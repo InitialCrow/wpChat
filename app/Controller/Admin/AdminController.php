@@ -1,17 +1,5 @@
 <?php 
 namespace App\Controller\Admin;
-// use Ratchet\WebSocket\WsServer;
-// use Ratchet\Http\Http
-// use Ratchet\Server\IoServer;
-// use App\Chat;
-
-
-$path = $_SERVER['DOCUMENT_ROOT'];
-
-
-include_once $path . '/wp-admin/includes/plugin.php';
-include_once $path . '/wp-includes/pluggable.php';
-require __DIR__ .'../../../../vendor/autoload.php';
 
 class AdminController
 {
@@ -22,6 +10,10 @@ class AdminController
 	}
 	public function init(){
 		// $page_title, $menu_title, $capability, $menu_slug, $callback_function
+		if(!function_exists(add_menu_page)){
+			$path = $_SERVER['DOCUMENT_ROOT'];
+			include_once $path . '/wp-admin/includes/plugin.php';
+		}
 		add_menu_page( 'wpChat plugin page', 'wpChat', 'manage_options', '/wpChat/views/admin/dashboard.php', '',plugins_url('/wpChat/public/assets/wpChatIcon.png' ),500 );
 		$pid = shell_exec('pidof php');
 		if(!empty($pid)){
@@ -56,7 +48,7 @@ class AdminController
 		exit();
 	}
 	public function clearHistory(){
-		$file = __DIR__.'/../../history.json';
+		$file = plugin_dir_path(__FILE__).'/../../history.json';
 		file_put_contents("$file", "");
 		wp_redirect('/wp-admin/admin.php?page=wpChat%2Fviews%2Fadmin%2Fdashboard.php');
 		exit();

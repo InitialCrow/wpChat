@@ -2,4 +2,14 @@
 	z-index: 22;
 	bottom: 10px;
 	position: fixed;
+	max-width: 500px;
+	left: 10px;
+}
+
+.wpChatLogin form input{
+	width: 60%;
+}
+.wpChatLogin button{
+	width: 30%;
+	display: inline-block;
 }

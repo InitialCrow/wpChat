@@ -8,7 +8,7 @@
 * Author URI: http://adam-parent.com
 * License: MIT
 */
-require __DIR__ .'/vendor/autoload.php';
+require plugin_dir_path(__FILE__ ).'/vendor/autoload.php';
 use App\Controller\ChatController;
 use App\Controller\Admin\AdminController;
 use App\EzRouter;

@@ -8,6 +8,7 @@ plugin for wordpress from scratch with mvc work on linux (no admin for window)
 
 > git clone https://github.com/InitialCrow/wpChat.git .
 
+- rename folder to wpChat if name changed
 - then put wpChat folder in you wordpress plugin directory
 
 - we need to install dependencies so with composer (go check how to install composer if you dont have it) use in wpChat directory
@@ -19,7 +20,7 @@ plugin for wordpress from scratch with mvc work on linux (no admin for window)
 > sudo chmod 777 wpChat;
 > sudo chmod 777 wpChat/app/history.json
 
-- if you server has sublfolder for acces wordpress app go to index.php in plugin and fine the line 
+- if you server has sublfolder for acces wordpress app go to index.php in plugin and find the line 
 
 > define('BASE_URI', ''); // set here the subfolder path after host
 
